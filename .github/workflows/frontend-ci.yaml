@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           #node-version: latest
-          node-version-file: './starter/frontend/'
+          node-version-file: './starter/frontend/package.json'
           cache: 'npm'
 
       #Install dependencies
@@ -51,7 +51,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           #node-version: latest
-          node-version-file: './starter/frontend/'
+          node-version-file: './starter/frontend/package.json'
           cache: 'npm'
 
       #Install dependencies
@@ -75,7 +75,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           #node-version: latest
-          node-version-file: './starter/frontend/'
+          node-version-file: './starter/frontend/package.json'
           cache: 'npm'
 
       #Install dependencies
