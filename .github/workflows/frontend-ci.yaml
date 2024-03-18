@@ -23,20 +23,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #setup node.js  and cache
+      #setup node.js and cache
       - name: Set up Node.js 
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          node-version-file: './starter/frontend/'
           cache: 'npm'
 
       #Install dependencies
       - name: install dependencies
-        run: cd starter/backend && npm ci
+        run: cd starter/frontend && npm ci
 
       #Run tests
       - name: Run tests
-        run: cd starter/backend &&  npm test
+        run: cd starter/frontend &&  npm test
       
   frontend-ci-lint:
     runs-on: ubuntu-latest
@@ -50,15 +51,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          node-version-file: './starter/frontend/'
           cache: 'npm'
 
       #Install dependencies
       - name: install dependencies
-        run: cd starter/backend && npm ci
+        run: cd starter/frontend && npm ci
 
       #Run tests
       - name: Run tests
-        run: cd starter/backend &&  npm run lint
+        run: cd starter/frontend &&  npm run lint
   
   frontend-ci-build:
     needs: [frontend-ci-test, frontend-ci-lint]
@@ -73,14 +75,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          node-version-file: './starter/frontend/'
           cache: 'npm'
 
       #Install dependencies
       - name: install dependencies
-        run: cd starter/backend && npm ci
+        run: cd starter/frontend && npm ci
 
       #create build
       - name: create build
-        run: cd starter/backend &&  npm run build
+        run: cd starter/frontend &&  npm run build
 
 
