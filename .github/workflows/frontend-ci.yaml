@@ -1,0 +1,86 @@
+# Workflow name
+name: frontend-ci-test-lint-build
+
+# Triggers for the workflow
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
+  
+  
+  # # Automatic trigger on pull request events targeting the main branch
+  # pull_request:
+  #   branches:
+  #     - main
+      
+
+# Jobs defined in the workflow
+jobs:
+
+  frontend-ci-test:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #setup node.js  and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/backend && npm ci
+
+      #Run tests
+      - name: Run tests
+        run: cd starter/backend &&  npm test
+      
+  frontend-ci-lint:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #setup node.js  and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/backend && npm ci
+
+      #Run tests
+      - name: Run tests
+        run: cd starter/backend &&  npm run lint
+  
+  frontend-ci-build:
+    needs: [frontend-ci-test, frontend-ci-lint]
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #setup node.js  and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/backend && npm ci
+
+      #create build
+      - name: create build
+        run: cd starter/backend &&  npm run build
+
+
