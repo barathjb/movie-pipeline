@@ -25,6 +25,7 @@ jobs:
 
       #setup node.js and cache
       - name: Set up Node.js 
+        run: cd starter/frontend/
         uses: actions/setup-node@v3
         with:
           node-version: latest
