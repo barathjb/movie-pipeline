@@ -98,7 +98,7 @@ jobs:
       #   run: cd starter/backend && pipenv install --dev
 
       #create docker build
-      - name: Rcreating docker image    
+      - name: creating docker image    
         run: cd starter/backend && docker build -t movie_pic_app .
 
 
