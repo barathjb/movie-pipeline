@@ -42,7 +42,7 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: pipenv install
+        run: pipenv --three sync #&& pipenv install
 
       #Run tests
       - name: Run tests    
