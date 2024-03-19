@@ -40,11 +40,11 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv install #sync
+        run: cd starter/backend && pipenv install 
 
       #Run tests
       - name: Run tests    
-        run: cd starter/backend && pipenv run test
+        run: cd starter/backend && pipenv run test 
       
   backend-ci-lint:
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv sync
+        run: cd starter/backend && pipenv install --dev
 
       #Run linter
       - name: Run linter    
