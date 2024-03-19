@@ -40,7 +40,7 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv sync
+        run: cd starter/backend && pipenv install #sync
 
       #Run tests
       - name: Run tests    
@@ -69,10 +69,10 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv sync && pipenv install
+        run: cd starter/backend && pipenv sync
 
       #Run linter
-      - name: Run tests    
+      - name: Run linter    
         run: cd starter/backend && pipenv run flake8
   
   # backend-ci-build:
