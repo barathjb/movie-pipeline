@@ -42,10 +42,11 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv install
+        run: cd starter/backend && pipenv install && pip install pytest
 
       #Run tests
       - name: Run tests
+
         run: cd starter/backend && pytest test_app.py
       
   # backend-ci-lint:
