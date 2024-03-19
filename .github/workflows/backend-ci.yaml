@@ -1,5 +1,5 @@
 # Workflow name
-name: backend-ci-test-lint
+name: backend-ci-test-lint-build
 
 # Triggers for the workflow
 on:
@@ -40,7 +40,7 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv sync #&& pipenv install
+        run: cd starter/backend && pipenv sync
 
       #Run tests
       - name: Run tests    
@@ -69,9 +69,9 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv sync #&& pipenv install
+        run: cd starter/backend && pipenv sync && pipenv install
 
-      #Run tests
+      #Run linter
       - name: Run tests    
         run: cd starter/backend && pipenv run flake8
   
