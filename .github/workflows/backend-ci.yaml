@@ -46,7 +46,7 @@ jobs:
 
       #Run tests
       - name: Run tests
-        run: pipenv run test
+        run: cd starter/backend && pipenv run test
       
   # backend-ci-lint:
   #   runs-on: ubuntu-latest
