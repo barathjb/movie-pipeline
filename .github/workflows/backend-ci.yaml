@@ -38,14 +38,14 @@ jobs:
       #Install pipenv
       - name: Install pipenv
         #run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
-        run: pip install pipenv
+        run: cd starter/backend && pip install pipenv
       
       #install dependencies
       - name: install dependencies
         run: pipenv install
 
       #Run tests
-      - name: Run tests
+      - name: Run tests    
         run: cd starter/backend && pipenv run test
       
   # backend-ci-lint:
