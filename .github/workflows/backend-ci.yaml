@@ -23,13 +23,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #setup node.js and cache
-      - name: Set up Node.js 
+      #setup python and cache
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          node-version: latest
+          python-version: latest
           cache-dependency-path: './starter/backend/Pipfile.lock'
           cache: 'pipenv'
+
+      # You can test your matrix by printing the current Python version
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
 
       #Install dependencies
       - name: install dependencies
