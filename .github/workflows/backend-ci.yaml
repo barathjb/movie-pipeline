@@ -83,19 +83,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      # #setup python and cache
-      # - name: Set up Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: "3.10"
+      #setup python and cache
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
-      # #Install pipenv
-      # - name: Install pipenv
-      #   run: cd starter/backend && pip install pipenv
+      #Install pipenv
+      - name: Install pipenv
+        run: cd starter/backend && pip install pipenv
       
-      # #install dependencies
-      # - name: install dependencies
-      #   run: cd starter/backend && pipenv install --dev
+      #install dependencies
+      - name: install dependencies
+        run: cd starter/backend && pipenv install --dev
 
       #create docker build
       - name: creating docker image    
