@@ -47,7 +47,7 @@ jobs:
       #Run tests
       - name: Run tests
 
-        run: pytest ./starter/backend/test_app.py
+        run: pipenv run pytest ./starter/backend/test_app.py
       
   # backend-ci-lint:
   #   runs-on: ubuntu-latest
