@@ -42,7 +42,7 @@ jobs:
       
       #install dependencies
       - name: install dependencies
-        run: cd starter/backend && pipenv --three sync #&& pipenv install
+        run: cd starter/backend && pipenv sync #&& pipenv install
 
       #Run tests
       - name: Run tests    
