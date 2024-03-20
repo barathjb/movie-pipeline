@@ -1,0 +1,77 @@
+# Workflow name
+name: frontend-cd-deploy
+
+# Triggers for the workflow
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
+  
+  
+  # Automatic trigger on pull request events targeting the main branch
+  push:
+    branches:
+        - main
+      
+
+# Jobs defined in the workflow
+jobs:
+
+  frontend-cd-test:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #setup node.js and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache-dependency-path: './starter/frontend/package-lock.json'
+          cache: 'npm'
+
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/frontend && npm ci
+
+      #Run tests
+      - name: Run tests
+        run: cd starter/frontend &&  npm test
+      
+  frontend-cd-lint:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #setup node.js  and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache-dependency-path: './starter/frontend/package-lock.json'
+          cache: 'npm'
+
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/frontend && npm ci
+
+      #Run tests
+      - name: Run tests
+        run: cd starter/frontend &&  npm run lint
+  
+  frontend-ci-build:
+    needs: [frontend-cd-test, frontend-cd-lint]
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+                
+      #create build
+      - name: create build
+        run: cd starter/frontend &&  docker build -t movie-app-frontend .
+
+

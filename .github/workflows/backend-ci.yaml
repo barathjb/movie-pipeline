@@ -85,6 +85,6 @@ jobs:
       
       #create docker build
       - name: creating docker image    
-        run: cd starter/backend && docker build -t movie_pic_app .
+        run: cd starter/backend && docker build -t movie-app-backend .
 
 
