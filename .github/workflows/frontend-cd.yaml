@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
   
   
-  # Automatic trigger on pull request events targeting the main branch
-  push:
-    branches:
-        - main
+#   # Automatic trigger on pull request events targeting the main branch
+#   push:
+#     branches:
+#         - main
       
 
 # Jobs defined in the workflow
@@ -69,9 +69,9 @@ jobs:
       #checkout code
       - name: Checkout code
         uses: actions/checkout@v3
-                
+
       #create build
       - name: create build
-        run: cd starter/frontend &&  docker build -t movie-app-frontend .
+        run: cd starter/frontend &&  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t mp-frontend .
 
 
