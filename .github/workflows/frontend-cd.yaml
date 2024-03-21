@@ -73,5 +73,36 @@ jobs:
       #create build
       - name: create build
         run: cd starter/frontend &&  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t mp-frontend .
+      
+      #configure AWS credentials
+      - name: AWS configure
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/my-github-actions-role
 
+      #Build and push to ECR
+      - name: Build, tag, and push docker image to Amazon ECR Public
+        uses: aws-actions/amazon-ecr-login@v2
+        with: 
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REPOSITORY: my-ecr-public-repo
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG . --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000
+          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG    
 
+       #Deploy to EKS cluster
+      - name: Deploying to EKS cluster
+        uses: kodermax/kubectl-aws-eks@main 
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: my-app
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                 
