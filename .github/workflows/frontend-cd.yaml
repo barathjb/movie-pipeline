@@ -103,7 +103,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
           kubectl apply -f ./starter/frontend/k8s/deployment.yaml
-          kubectl set image deployment/$REPOSITORY ${{ vars.FRONTEND_ECR }}:$IMAGE_TAG
+          kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.FRONTEND_ECR }}:$IMAGE_TAG
           kubectl apply -f ./starter/frontend/k8s/service.yaml
           
       # #Connect to EKS
