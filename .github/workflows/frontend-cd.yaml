@@ -7,60 +7,60 @@ on:
   workflow_dispatch:
   
   
-#   # Automatic trigger on pull request events targeting the main branch
-#   push:
-#     branches:
-#         - main
+  # Automatic trigger on pull request events targeting the main branch
+  push:
+    branches:
+        - main
       
 
 # Jobs defined in the workflow
 jobs:
 
-  # frontend-cd-test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     #checkout code
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  frontend-cd-test:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     #setup node.js and cache
-  #     - name: Set up Node.js 
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: latest
-  #         cache-dependency-path: './starter/frontend/package-lock.json'
-  #         cache: 'npm'
+      #setup node.js and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache-dependency-path: './starter/frontend/package-lock.json'
+          cache: 'npm'
 
-  #     #Install dependencies
-  #     - name: install dependencies
-  #       run: cd starter/frontend && npm ci
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/frontend && npm ci
 
-  #     #Run tests
-  #     - name: Run tests
-  #       run: cd starter/frontend &&  npm test
+      #Run tests
+      - name: Run tests
+        run: cd starter/frontend &&  npm test
       
-  # frontend-cd-lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     #checkout code
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  frontend-cd-lint:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     #setup node.js  and cache
-  #     - name: Set up Node.js 
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: latest
-  #         cache-dependency-path: './starter/frontend/package-lock.json'
-  #         cache: 'npm'
+      #setup node.js  and cache
+      - name: Set up Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache-dependency-path: './starter/frontend/package-lock.json'
+          cache: 'npm'
 
-  #     #Install dependencies
-  #     - name: install dependencies
-  #       run: cd starter/frontend && npm ci
+      #Install dependencies
+      - name: install dependencies
+        run: cd starter/frontend && npm ci
 
-  #     #Run tests
-  #     - name: Run tests
-  #       run: cd starter/frontend &&  npm run lint
+      #Run tests
+      - name: Run tests
+        run: cd starter/frontend &&  npm run lint
   
   frontend-cd-build:
     # needs: [frontend-cd-test, frontend-cd-lint]
@@ -88,7 +88,7 @@ jobs:
           REACT_APP_MOVIE_API_URL: http://localhost:5000
 
         run: |
-          docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
+          docker build -t frontend ./starter/frontend/ --build-arg=REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
           docker tag frontend:${{ vars.IMAGE_TAG }} ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
           docker push ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
 
