@@ -103,7 +103,8 @@ jobs:
       - name: updating image name in deployment.yaml
         env:
           IMAGE_TAG: latest  
-        run: sed -ie 's/image: frontend/image: ${{ secrets.FRONTED_ECR }}\:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
+        run: |
+          sed -ie 's/image: frontend/image: ${{ secrets.FRONTED_ECR }}\:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
           
       #Connect to EKS
       - name: Connecting to EKS cluster
