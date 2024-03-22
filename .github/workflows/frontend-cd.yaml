@@ -101,7 +101,7 @@ jobs:
 
       #Connect to EKS
       - name: Connecting to EKS cluster
-        run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER }}
+        run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
         # uses: kodermax/kubectl-aws-eks@main 
         # env:
         #   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
