@@ -118,6 +118,7 @@ jobs:
         with:
           # args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           args: apply -f ./starter/frontend/k8s/deployment.yaml
+          args: apply -f ./starter/frontend/k8s/service.yaml
 
           # #Deploy to EKS
       # - name: Deploy to EKS cluster
