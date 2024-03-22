@@ -63,7 +63,7 @@ jobs:
         run: cd starter/frontend &&  npm run lint
   
   frontend-cd-build:
-    # needs: [frontend-cd-test, frontend-cd-lint]
+    needs: [frontend-cd-test, frontend-cd-lint]
     runs-on: ubuntu-latest
     steps:
       #checkout code
