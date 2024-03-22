@@ -84,11 +84,13 @@ jobs:
           # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/my-github-actions-role
 
       #Login to ECR
-      - name: Build, tag, and push docker image to Amazon ECR Public
+      - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
         env:
-          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          REPOSITORY: my-ecr-public-repo
+          #REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          #REPOSITORY: my-ecr-public-repo
+          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          REPOSITORY: frontend
           IMAGE_TAG: ${{ github.sha }}
 
       #Build and push to ECR
