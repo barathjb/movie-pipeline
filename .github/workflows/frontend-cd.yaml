@@ -106,7 +106,6 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
           #ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG    
-        variables:
           ROLLOUT_RESOURCE_TYPE: deployment
              
         with:
