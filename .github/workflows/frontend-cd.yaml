@@ -83,7 +83,7 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/my-github-actions-role
 
-      #Build and push to ECR
+      #Login to ECR
       - name: Build, tag, and push docker image to Amazon ECR Public
         uses: aws-actions/amazon-ecr-login@v2
         with: 
@@ -91,6 +91,9 @@ jobs:
           REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           REPOSITORY: my-ecr-public-repo
           IMAGE_TAG: ${{ github.sha }}
+          
+      #Build and push to ECR
+      - name: Build, tag, and push docker image to Amazon ECR Public
         run: |
           docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG . --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000
           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG    
