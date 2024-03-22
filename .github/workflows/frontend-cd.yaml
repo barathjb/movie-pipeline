@@ -98,7 +98,7 @@ jobs:
 
       #Deploy to EKS
       - name: Deploying to EKS
-        env:
+        # env:
           # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
           # REPOSITORY: frontend
           # IMAGE_TAG: latest  
