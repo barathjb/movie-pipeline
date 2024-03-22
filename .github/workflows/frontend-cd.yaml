@@ -107,7 +107,7 @@ jobs:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
              
         with:
-          args: set image deployment/$ECR_REPOSITORY ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
+          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
 
 
           # #Deploy to EKS
