@@ -105,10 +105,10 @@ jobs:
         uses: kodermax/kubectl-aws-eks@main 
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-             
+          ECR_REPOSITORY: 255840645116.dkr.ecr.us-east-1.amazonaws.com/frontend:latest   
         with:
           # args: set image deployment/$ECR_REPOSITORY ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
-          args: set image deployment/${{ secrets.ECR_REPOSITORY }}
+          args: set image deployment/$ECR_REPOSITORY
 
           # #Deploy to EKS
       # - name: Deploy to EKS cluster
