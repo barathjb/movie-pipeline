@@ -88,7 +88,7 @@ jobs:
           REACT_APP_MOVIE_API_URL: http://localhost:5000
 
         run: |
-          docker build -t frontend ./starter/frontend/ --build-arg=REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL
+          docker build -t frontend ./starter/frontend/ --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000
           docker tag frontend:${{ vars.IMAGE_TAG }} ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
           docker push ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
 
