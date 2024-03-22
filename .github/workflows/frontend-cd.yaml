@@ -92,7 +92,7 @@ jobs:
         env:
           REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
           REPOSITORY: frontend
-          IMAGE_TAG: ${{ github.sha }}          
+          IMAGE_TAG: latest        
           REACT_APP_MOVIE_API_URL: http://localhost:5000
         run: |
           docker build -t frontend ./starter/frontend/
