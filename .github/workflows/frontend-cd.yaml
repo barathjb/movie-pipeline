@@ -104,7 +104,7 @@ jobs:
         env:
           IMAGE_TAG: latest  
         run: |
-          sed -ie 's/image: frontend/image: ${{ secrets.FRONTED_ECR }}\:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
+          sed -ie 's/image: frontend/image: 255840645116.dkr.ecr.us-east-1.amazonaws.com\/frontend:latest/g' ./starter/frontend/k8s/deployment.yaml
           
       #Connect to EKS
       - name: Connecting to EKS cluster
