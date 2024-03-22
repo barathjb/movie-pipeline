@@ -90,23 +90,26 @@ jobs:
       #Build and push to ECR
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
-          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
-          REPOSITORY: frontend
+          # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          # REPOSITORY: frontend
           IMAGE_TAG: latest        
           REACT_APP_MOVIE_API_URL: http://localhost:5000
         run: |
-          docker build -t frontend ./starter/frontend/
-          docker tag frontend:$IMAGE_TAG ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+          docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
+#          docker tag frontend:$IMAGE_TAG ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+#          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+          docker tag frontend:$IMAGE_TAG ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
+          docker push ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
 
       #Connect to EKS
       - name: Connecting to EKS cluster
-        uses: kodermax/kubectl-aws-eks@main 
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
-        with:
-          args: set image deployment/$ECR_REPO
+        run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER }}
+        # uses: kodermax/kubectl-aws-eks@main 
+        # env:
+        #   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        #   ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
+        # with:
+        #   args: set image deployment/$ECR_REPO
 
       #Deploy to EKS
       - name: Deploy to EKS cluster
