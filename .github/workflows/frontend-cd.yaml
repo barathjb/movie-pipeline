@@ -77,38 +77,42 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-          # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/my-github-actions-role
 
       #Login to ECR
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      # #Build and push to ECR
-      # - name: Build, tag, and push docker image to Amazon ECR Public
-      #   env:
-      #     IMAGE_TAG: latest        
-      #     REACT_APP_MOVIE_API_URL: http://localhost:5000
-      #   run: |
-      #     docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
-      #     docker tag frontend:$IMAGE_TAG ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
-      #     docker push ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
-
-      #Deploy to EKS
-      - name: Deploying to EKS
+      #Build and push to ECR
+      - name: Build, tag, and push docker image to Amazon ECR Public
         env:
-          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          IMAGE_TAG: latest        
+          REACT_APP_MOVIE_API_URL: http://localhost:5000
+          # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          REGISTRY: ${{ vars.FRONTEND_ECR }}
           REPOSITORY: frontend
           IMAGE_TAG: latest  
 
         run: |
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
+          docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
+          docker tag frontend:$IMAGE_TAG ${{ vars.FRONTEND_ECR }}:$IMAGE_TAG
+          docker push ${{ vars.FRONTEND_ECR }}:$IMAGE_TAG
+
+      #Deploy to EKS
+      - name: Deploying to EKS
+        env:
+          # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          # REPOSITORY: frontend
+          # IMAGE_TAG: latest  
+
+        run: |
+          aws eks update-kubeconfig --name ${{ vars.CLUSTER_NAME }}
           kubectl apply -f ./starter/frontend/k8s/deployment.yaml
           kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.FRONTEND_ECR }}:$IMAGE_TAG
           kubectl apply -f ./starter/frontend/k8s/service.yaml
           
       # #Connect to EKS
       # - name: Connecting to EKS cluster
-      #   # run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
+      #   # run: aws eks update-kubeconfig --name ${{ vars.CLUSTER_NAME }}
       #   uses: kodermax/kubectl-aws-eks@main 
       #   env:
       #     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
