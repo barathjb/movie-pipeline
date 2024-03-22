@@ -105,7 +105,7 @@ jobs:
           IMAGE_TAG: latest  
 
         run: |
-          sed -ie 's/image: frontend/image: $REGISTRY\$REPOSITORY:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
+          sed -ie 's/image: frontend/image: $REGISTRY\/$REPOSITORY:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
           aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
           kubectl apply -f ./starter/frontend/k8s/deployment.yaml
           kubectl apply -f ./starter/frontend/k8s/service.yaml
@@ -122,13 +122,6 @@ jobs:
       #   with:
       #     # args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       #     args: apply -f ./starter/frontend/k8s/deployment.yaml ./starter/frontend/k8s/service.yaml
-
-
-          # #Deploy to EKS
-      # - name: Deploy to EKS cluster
-      #   run: |
-      #     kubectl apply -f ./starter/frontend/k8s/deployment.yaml
-      #     kubectl apply -f ./starter/frontend/k8s/service.yaml
 
 
        
