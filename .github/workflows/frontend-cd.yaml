@@ -86,19 +86,16 @@ jobs:
       #Login to ECR
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
-        env:
-          #REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          #REPOSITORY: my-ecr-public-repo
-          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
-          REPOSITORY: frontend
-          IMAGE_TAG: ${{ github.sha }}
 
       #Build and push to ECR
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
+          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          REPOSITORY: frontend
+          IMAGE_TAG: ${{ github.sha }}          
           REACT_APP_MOVIE_API_URL: http://localhost:5000
         run: |
-          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG . --build-arg=${{ REACT_APP_MOVIE_API_URL }}
+          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG . --build-arg=$REACT_APP_MOVIE_API_URL
           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG    
 
        #Deploy to EKS cluster
