@@ -70,9 +70,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #create build
-      - name: create build
-        run: cd starter/frontend &&  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t mp-frontend .
+      # #create build
+      # - name: create build
+      #   run: cd starter/frontend &&  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t mp-frontend .
       
       #configure AWS credentials
       - name: AWS configure
