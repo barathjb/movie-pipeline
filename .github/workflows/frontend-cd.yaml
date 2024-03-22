@@ -101,9 +101,9 @@ jobs:
           IMAGE_TAG: latest  
 
         run: |
-          sed -ie 's/image: frontend/image: 255840645116.dkr.ecr.us-east-1.amazonaws.com\/frontend\:latest/g' ./starter/frontend/k8s/deployment.yaml
           aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
           kubectl apply -f ./starter/frontend/k8s/deployment.yaml
+          kubectl set image deployment/frontend frontend=255840645116.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kubectl apply -f ./starter/frontend/k8s/service.yaml
           
       # #Connect to EKS
