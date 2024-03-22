@@ -101,13 +101,13 @@ jobs:
 
       #Connect to EKS
       - name: Connecting to EKS cluster
-        run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
-        # uses: kodermax/kubectl-aws-eks@main 
-        # env:
-        #   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        #   ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
-        # with:
-        #   args: set image deployment/$ECR_REPO
+        # run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
+        uses: kodermax/kubectl-aws-eks@main 
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
+        with:
+          args: set image deployment/$ECR_REPO
 
       #Deploy to EKS
       - name: Deploy to EKS cluster
