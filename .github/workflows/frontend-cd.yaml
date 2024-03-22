@@ -90,7 +90,6 @@ jobs:
           # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
           REGISTRY: ${{ vars.FRONTEND_ECR }}
           REPOSITORY: frontend
-          IMAGE_TAG: latest  
 
         run: |
           docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
