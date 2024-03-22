@@ -111,9 +111,9 @@ jobs:
       #Deploy to EKS
       - name: Deploy to EKS cluster
         run: |
-        kubectl apply -f ./starter/frontend/k8s/deployment.yaml
-        kubectl apply -f ./starter/frontend/k8s/service.yaml
-        
+          kubectl apply -f ./starter/frontend/k8s/deployment.yaml
+          kubectl apply -f ./starter/frontend/k8s/service.yaml
+
 
        
           
