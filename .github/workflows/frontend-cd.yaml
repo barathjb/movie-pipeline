@@ -90,8 +90,8 @@ jobs:
       #Build and push to ECR
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
-          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
-          REPOSITORY: frontend
+          # REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
+          # REPOSITORY: frontend
           IMAGE_TAG: latest        
           REACT_APP_MOVIE_API_URL: http://localhost:5000
         run: |
@@ -99,19 +99,24 @@ jobs:
           docker tag frontend:$IMAGE_TAG ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
           docker push ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
 
+      #Modify deployment.yaml
+      - name: updating image name in deployment.yaml
+        env:
+          IMAGE_TAG: latest  
+        run: sed -ie 's/image: frontend/image: ${{ secrets.FRONTED_ECR }}\:$IMAGE_TAG/g' ./starter/frontend/k8s/deployment.yaml
+          
       #Connect to EKS
       - name: Connecting to EKS cluster
         # run: aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }}
         uses: kodermax/kubectl-aws-eks@main 
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
-          REPOSITORY: frontend
+          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.aws-region-1.amazonaws.com
           IMAGE_TAG: latest     
           ECR_REPOSITORY: frontend
         with:
-          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-
+          # args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          args: apply -f ./starter/frontend/k8s/deployment.yaml
 
           # #Deploy to EKS
       # - name: Deploy to EKS cluster
