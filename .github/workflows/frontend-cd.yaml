@@ -96,8 +96,6 @@ jobs:
           REACT_APP_MOVIE_API_URL: http://localhost:5000
         run: |
           docker build -t frontend ./starter/frontend/ --build-arg=$REACT_APP_MOVIE_API_URL
-#          docker tag frontend:$IMAGE_TAG ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
-#          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
           docker tag frontend:$IMAGE_TAG ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
           docker push ${{ secrets.FRONTEND_ECR }}:$IMAGE_TAG
 
