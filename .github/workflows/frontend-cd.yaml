@@ -105,9 +105,9 @@ jobs:
         uses: kodermax/kubectl-aws-eks@main 
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
+          #ECR_REPO: $REGISTRY/$REPOSITORY:$IMAGE_TAG         
         with:
-          args: set image deployment/$ECR_REPO
+          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$REGISTRY/REPOSITORY:$IMAGE_TAG
 
       #Deploy to EKS
       - name: Deploy to EKS cluster
