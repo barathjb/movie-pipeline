@@ -75,7 +75,7 @@ jobs:
         run: cd starter/backend && pipenv run flake8
   
   backend-cd-build:
-    needs: [backend-ci-test, backend-ci-lint]
+    needs: [backend-cd-test, backend-cd-lint]
     runs-on: ubuntu-latest
     steps:
       #checkout code
