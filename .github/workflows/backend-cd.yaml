@@ -1,5 +1,5 @@
 # Workflow name
-name: Frontend Continuous Deployment
+name: Backend Continuous Deployment
 
 # Triggers for the workflow
 on:
