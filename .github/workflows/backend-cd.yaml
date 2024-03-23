@@ -1,5 +1,5 @@
 # Workflow name
-name: backend-cd-deploy
+name: Frontend Continuous Deployment
 
 # Triggers for the workflow
 on:
@@ -76,6 +76,7 @@ jobs:
   
   backend-cd-build:
     needs: [backend-cd-test, backend-cd-lint]
+    if: success()
     runs-on: ubuntu-latest
     steps:
       #checkout code
@@ -98,8 +99,8 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR Public
         run: |
           docker build -t backend ./starter/backend/ 
-          docker tag backend:${{ vars.IMAGE_TAG }} ${{ vars.BACKEND_ECR }}:${{ vars.IMAGE_TAG }}
-          docker push ${{ vars.BACKEND_ECR }}:${{ vars.IMAGE_TAG }}
+          docker tag backend:${{ vars.IMAGE_TAG }} ${{ vars.BACKEND_ECR }}:${GITHUB_SHA::7}
+          docker push ${{ vars.BACKEND_ECR }}:${GITHUB_SHA::7}
 
       #Deploy to EKS
       - name: Deploying to EKS
@@ -109,5 +110,5 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ vars.CLUSTER_NAME }}
           kubectl apply -f ./starter/backend/k8s/deployment.yaml
-          kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.BACKEND_ECR }}:${{ vars.IMAGE_TAG }}
+          kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.BACKEND_ECR }}:${GITHUB_SHA::7}
           kubectl apply -f ./starter/backend/k8s/service.yaml

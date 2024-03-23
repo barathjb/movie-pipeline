@@ -1,5 +1,5 @@
 # Workflow name
-name: frontend-cd-deploy
+name: Frontend Continuous Deployment
 
 # Triggers for the workflow
 on:
@@ -64,6 +64,7 @@ jobs:
   
   frontend-cd-build:
     needs: [frontend-cd-test, frontend-cd-lint]
+    if: success()
     runs-on: ubuntu-latest
     steps:
       #checkout code
@@ -89,8 +90,8 @@ jobs:
 
         run: |
           docker build -t frontend ./starter/frontend/ --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000
-          docker tag frontend:${{ vars.IMAGE_TAG }} ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
-          docker push ${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
+          docker tag frontend:${{ vars.IMAGE_TAG }} ${{ vars.FRONTEND_ECR }}:${GITHUB_SHA::7}
+          docker push ${{ vars.FRONTEND_ECR }}:${GITHUB_SHA::7}
 
       #Deploy to EKS
       - name: Deploying to EKS
@@ -100,7 +101,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ vars.CLUSTER_NAME }}
           kubectl apply -f ./starter/frontend/k8s/deployment.yaml
-          kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.FRONTEND_ECR }}:${{ vars.IMAGE_TAG }}
+          kubectl set image deployment/$REPOSITORY $REPOSITORY=${{ vars.FRONTEND_ECR }}:${GITHUB_SHA::7}
           kubectl apply -f ./starter/frontend/k8s/service.yaml
 
 

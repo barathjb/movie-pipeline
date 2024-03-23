@@ -1,5 +1,5 @@
 # Workflow name
-name: backend-ci-test-lint-build
+name: Backend Continuous Integration
 
 # Triggers for the workflow
 on:
@@ -77,6 +77,7 @@ jobs:
   
   backend-ci-build:
     needs: [backend-ci-test, backend-ci-lint]
+    if: success()
     runs-on: ubuntu-latest
     steps:
       #checkout code
